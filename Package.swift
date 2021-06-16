@@ -5,6 +5,10 @@ import PackageDescription
 
 let package = Package(
     name: "BottomSheet",
+    platforms: [
+        .iOS("15.0"),
+        .macCatalyst("15.0")
+    ],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
