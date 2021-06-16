@@ -37,7 +37,7 @@ import BottomSheet
 
 ### Presenting the Sheet
 
-You can then apply the .bottomSheet modifier to any SwiftUI view, ensuring you attach a binding to the isPresented property - just like the standard .sheet modifier.
+You can then apply the .bottomSheet modifier to any SwiftUI view, ensuring you attach a binding to the isPresented property - just like the standard .sheet modifier:
 
 ```swift
 .bottomSheet(isPresented: $isPresented) {
@@ -47,7 +47,7 @@ You can then apply the .bottomSheet modifier to any SwiftUI view, ensuring you a
 
 ### Customizing the Sheet
 
-BottomSheet can be customized in the same way a UISheetPresentationController can be customized in UIKit. This is done by specifying additional properties in the modifier.
+BottomSheet can be customized in the same way a UISheetPresentationController can be customized in UIKit. This is done by specifying additional properties in the modifier:
 
 ```swift
 .bottomSheet(
