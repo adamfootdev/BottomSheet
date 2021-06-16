@@ -23,7 +23,7 @@ BottomSheet can be added to your app via Swift Package Manager in Xcode using th
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/adamfootdev/BottomSheet.git", from: "0.1.1")
+    .package(url: "https://github.com/adamfootdev/BottomSheet.git", from: "0.1.3")
 ]
 ```
 
