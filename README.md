@@ -19,7 +19,7 @@ BottomSheet makes it easy to take advantage of the new UISheetPresentationContro
 
 ### Swift Package Manager
 
-BottomSheet can be added to your app via Swift Package Manager in Xcode. Add to your project like so:
+BottomSheet can be added to your app via Swift Package Manager in Xcode using the following configuration:
 
 ```swift
 dependencies: [
