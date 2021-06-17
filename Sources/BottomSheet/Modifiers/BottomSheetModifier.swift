@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
+struct BottomSheet<ContentView: View>: ViewModifier {
     @Binding private var isPresented: Bool
     private let detents: [UISheetPresentationController.Detent]
     private let prefersGrabberVisible: Bool
@@ -40,14 +40,14 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
     }
     
     init(
-        item: Binding<Optional<T>>,
+        item: Binding<Optional<Any>>,
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
         prefersGrabberVisible: Bool = false,
         smallestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier? = nil,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
-        @ViewBuilder contentView: (T) -> ContentView
+        @ViewBuilder contentView: () -> ContentView
      ) {
         self.isPresented = Binding<Bool>(get: {
             item != nil
@@ -60,7 +60,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
-        self.contentView = contentView(item.wrappedValue)
+        self.contentView = contentView()
      }
 
     func body(content: Content) -> some View {
@@ -132,15 +132,15 @@ extension View {
         )
     }
     
-    public func bottomSheet<T: Any, ContentView: View>(
-        item: Binding<Optional<T>>,
+    public func bottomSheet<ContentView: View>(
+        item: Binding<Optional<Any>>,
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
         prefersGrabberVisible: Bool = false,
         smallestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier? = nil,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
-        @ViewBuilder contentView: (T) -> ContentView
+        @ViewBuilder contentView: () -> ContentView
     ) -> some View {
         self.modifier(
             BottomSheet(
