@@ -38,6 +38,30 @@ struct BottomSheet<ContentView: View>: ViewModifier {
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
         self.contentView = contentView()
     }
+    
+    init(
+        item: Binding<Optional<Any>>,
+        detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
+        prefersGrabberVisible: Bool = false,
+        smallestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier? = nil,
+        prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
+        prefersEdgeAttachedInCompactHeight: Bool = false,
+        widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
+        @ViewBuilder contentView: () -> ContentView
+     ) {
+        self.isPresented = Binding<Bool>(get: {
+            item != nil
+        }, set: { newValue in
+            item = nil
+        })
+        self.detents = detents
+        self.prefersGrabberVisible = prefersGrabberVisible
+        self.smallestUndimmedDetentIdentifier = smallestUndimmedDetentIdentifier
+        self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
+        self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
+        self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
+        self.contentView = contentView()
+     }
 
     func body(content: Content) -> some View {
         content
