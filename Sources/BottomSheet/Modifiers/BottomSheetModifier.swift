@@ -131,4 +131,28 @@ extension View {
             )
         )
     }
+    
+    public func bottomSheet<ContentView: View>(
+        item: Binding<Optional<Any>>,
+        detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
+        prefersGrabberVisible: Bool = false,
+        smallestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier? = nil,
+        prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
+        prefersEdgeAttachedInCompactHeight: Bool = false,
+        widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
+        @ViewBuilder contentView: () -> ContentView
+    ) -> some View {
+        self.modifier(
+            BottomSheet(
+                item: item,
+                detents: detents,
+                prefersGrabberVisible: prefersGrabberVisible,
+                smallestUndimmedDetentIdentifier: smallestUndimmedDetentIdentifier,
+                prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
+                prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
+                widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
+                contentView: contentView
+            )
+        )
+    }
 }
