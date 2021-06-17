@@ -40,7 +40,7 @@ struct BottomSheet<ContentView: View>: ViewModifier {
     }
     
     init(
-        item: Binding<Optional<Any>>,
+        item: Binding<Any?>,
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
         prefersGrabberVisible: Bool = false,
         smallestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier? = nil,
@@ -133,7 +133,7 @@ extension View {
     }
     
     public func bottomSheet<ContentView: View>(
-        item: Binding<Optional<Any>>,
+        item: Binding<Any?>,
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
         prefersGrabberVisible: Bool = false,
         smallestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier? = nil,
