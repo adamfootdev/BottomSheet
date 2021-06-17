@@ -1,5 +1,6 @@
 # BottomSheet
 
+![Feature Graphic](https://github.com/adamfootdev/BottomSheet/blob/main/Assets/feature-graphic.png?raw=true)
 ![Platform](https://img.shields.io/badge/platforms-iOS%2015.0-F28D00.svg)
 
 BottomSheet makes it easy to take advantage of the new UISheetPresentationController in SwiftUI with a simple .bottomSheet modifier on existing views.
@@ -63,7 +64,7 @@ BottomSheet can be customized in the same way a UISheetPresentationController ca
 }
 ```
 
-For more information on UISheetPresentationController, view Apple's documentation: https://developer.apple.com/documentation/uikit/uisheetpresentationcontroller
+For more information on UISheetPresentationController, read Apple's documentation: https://developer.apple.com/documentation/uikit/uisheetpresentationcontroller
 
 
-Please note BottomSheet is currently missing the ability to be resized programmatically as the delegate doesn't work in iOS 15 beta 1.
+Please note BottomSheet is currently missing the ability to be resized programmatically as the delegate doesn't work in iOS 15 beta 1. You may also run into issues when used on an iPad with multi-window support and have multiple instances of the same app side-by-side running.
