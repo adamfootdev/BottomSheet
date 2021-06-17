@@ -119,7 +119,7 @@ extension View {
         @ViewBuilder contentView: () -> ContentView
     ) -> some View {
         self.modifier(
-            BottomSheet(
+            BottomSheet<Any>(
                 isPresented: isPresented,
                 detents: detents,
                 prefersGrabberVisible: prefersGrabberVisible,
