@@ -49,10 +49,10 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         @ViewBuilder contentView: () -> ContentView
      ) {
-        self.isPresented = Binding<Bool>(get: {
-            item != nil
+        self._isPresented = Binding<Bool>(get: {
+            item.wrappedValue != nil
         }, set: { newValue in
-            item = nil
+            item.wrappedValue = nil
         })
         self.detents = detents
         self.prefersGrabberVisible = prefersGrabberVisible
@@ -108,7 +108,7 @@ extension View {
     ///   - prefersEdgeAttachedInCompactHeight: A Boolean value that determines whether the sheet attaches to the bottom edge of the screen in a compact-height size class.
     ///   - widthFollowsPreferredContentSizeWhenEdgeAttached: A Boolean value that determines whether the sheet's width matches its view controller's preferred content size.
     ///   - contentView: A closure that returns the content of the sheet.
-    public func bottomSheet<ContentView: View>(
+    public func bottomSheet<T: Any, ContentView: View>(
         isPresented: Binding<Bool>,
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
         prefersGrabberVisible: Bool = false,
@@ -119,7 +119,7 @@ extension View {
         @ViewBuilder contentView: () -> ContentView
     ) -> some View {
         self.modifier(
-            BottomSheet<Any>(
+            BottomSheet<Any, ContentView>(
                 isPresented: isPresented,
                 detents: detents,
                 prefersGrabberVisible: prefersGrabberVisible,
@@ -156,3 +156,4 @@ extension View {
         )
     }
 }
+
