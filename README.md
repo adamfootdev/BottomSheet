@@ -46,6 +46,14 @@ You can then apply the .bottomSheet modifier to any SwiftUI view, ensuring you a
 }
 ```
 
+BottomSheet also supports passing an Optional item to it, displaying the sheet if the item is not nil:
+
+```swift
+.bottomSheet(item: $item) {
+    Text("Hello, world!")
+}
+```
+
 ### Customizing the Sheet
 
 BottomSheet can be customized in the same way a UISheetPresentationController can be customized in UIKit. This is done by specifying additional properties in the modifier:
