@@ -132,6 +132,17 @@ extension View {
         )
     }
     
+    /// Presents a bottom sheet when the binding to an Optinal item you pass to it is not nil. The bottom sheet
+    /// can also be customised in the same way as a UISheetPresentationController can be.
+    /// - Parameters:
+    ///   - item: A binding to an Optional item that determines whether to present the sheet that you create in the modifier’s content closure.
+    ///   - detents: An array containing all of the possible sizes for the sheet. This array must contain at least one element. When you set this value, specify detents in order from smallest to largest height.
+    ///   - prefersGrabberVisible: A Boolean value that determines whether the sheet shows a grabber at the top.
+    ///   - smallestUndimmedDetentIdentifier: The smallest detent that doesn't dim the view underneath the sheet.
+    ///   - prefersScrollingExpandsWhenScrolledToEdge: A Boolean value that determines whether scrolling expands the sheet to a larger detent.
+    ///   - prefersEdgeAttachedInCompactHeight: A Boolean value that determines whether the sheet attaches to the bottom edge of the screen in a compact-height size class.
+    ///   - widthFollowsPreferredContentSizeWhenEdgeAttached: A Boolean value that determines whether the sheet's width matches its view controller's preferred content size.
+    ///   - contentView: A closure that returns the content of the sheet.
     public func bottomSheet<T: Any, ContentView: View>(
         item: Binding<T?>,
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
