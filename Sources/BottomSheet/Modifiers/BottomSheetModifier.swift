@@ -15,8 +15,9 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
     private let prefersScrollingExpandsWhenScrolledToEdge: Bool
     private let prefersEdgeAttachedInCompactHeight: Bool
     private let widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
+    private var onDismiss: (() -> Void)? = {}
     private let contentView: ContentView
-
+    
     @State private var bottomSheetViewController: BottomSheetViewController<ContentView>?
 
     init(
@@ -27,6 +28,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
+        onDismiss: (() -> Void)? = nil,
         @ViewBuilder contentView: () -> ContentView
     ) {
         _isPresented = isPresented
@@ -37,6 +39,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
         self.contentView = contentView()
+        self.onDismiss = onDismiss
     }
     
     init(
@@ -90,6 +93,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
             rootViewController.present(bottomSheetViewController!, animated: true)
 
         } else {
+            onDismiss?()
             bottomSheetViewController?.dismiss(animated: true)
         }
     }
@@ -116,6 +120,7 @@ extension View {
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
+        onDismiss: (() -> Void)? = nil,
         @ViewBuilder contentView: () -> ContentView
     ) -> some View {
         self.modifier(
@@ -127,6 +132,7 @@ extension View {
                 prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
                 prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
+                onDismiss: onDismiss,
                 contentView: contentView
             )
         )
