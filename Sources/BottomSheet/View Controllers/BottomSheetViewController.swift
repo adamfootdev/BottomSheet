@@ -14,6 +14,7 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
 
     private let detents: [UISheetPresentationController.Detent]
     private let prefersGrabberVisible: Bool
+    private let largestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier?
     private let prefersScrollingExpandsWhenScrolledToEdge: Bool
     private let prefersEdgeAttachedInCompactHeight: Bool
     private let widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
@@ -24,6 +25,7 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
         isPresented: Binding<Bool>,
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
         prefersGrabberVisible: Bool = false,
+        largestUndimmedDetentIdentifier:  UISheetPresentationController.Detent.Identifier? = nil,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
@@ -33,6 +35,7 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
 
         self.detents = detents
         self.prefersGrabberVisible = prefersGrabberVisible
+        self.largestUndimmedDetentIdentifier = largestUndimmedDetentIdentifier
         self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
@@ -65,6 +68,7 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
             presentationController.detents = detents
             presentationController.prefersGrabberVisible = prefersGrabberVisible
             presentationController.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
+            presentationController.largestUndimmedDetentIdentifier = largestUndimmedDetentIdentifier
             presentationController.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
             presentationController.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
         }

@@ -11,6 +11,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
     @Binding private var isPresented: Bool
     private let detents: [UISheetPresentationController.Detent]
     private let prefersGrabberVisible: Bool
+    private let largestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier?
     private let prefersScrollingExpandsWhenScrolledToEdge: Bool
     private let prefersEdgeAttachedInCompactHeight: Bool
     private let widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
@@ -22,6 +23,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         isPresented: Binding<Bool>,
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
         prefersGrabberVisible: Bool = false,
+        largestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier? = nil,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
@@ -30,6 +32,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         _isPresented = isPresented
         self.detents = detents
         self.prefersGrabberVisible = prefersGrabberVisible
+        self.largestUndimmedDetentIdentifier = largestUndimmedDetentIdentifier
         self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
@@ -40,6 +43,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         item: Binding<T?>,
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
         prefersGrabberVisible: Bool = false,
+        largestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier? = nil,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
@@ -53,6 +57,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         self.detents = detents
         self.prefersGrabberVisible = prefersGrabberVisible
         self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
+         self.largestUndimmedDetentIdentifier = largestUndimmedDetentIdentifier
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
         self.contentView = contentView()
@@ -75,6 +80,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
                 isPresented: $isPresented,
                 detents: detents,
                 prefersGrabberVisible: prefersGrabberVisible,
+                largestUndimmedDetentIdentifier: largestUndimmedDetentIdentifier,
                 prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
                 prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
@@ -97,6 +103,7 @@ extension View {
     ///   - isPresented: A binding to a Boolean value that determines whether to present the sheet that you create in the modifier’s content closure.
     ///   - detents: An array containing all of the possible sizes for the sheet. This array must contain at least one element. When you set this value, specify detents in order from smallest to largest height.
     ///   - prefersGrabberVisible: A Boolean value that determines whether the sheet shows a grabber at the top.
+    ///   - largestUndimmedDetentIdentifier: The largest detent that doesn't dim the view underneath the sheet.
     ///   - prefersScrollingExpandsWhenScrolledToEdge: A Boolean value that determines whether scrolling expands the sheet to a larger detent.
     ///   - prefersEdgeAttachedInCompactHeight: A Boolean value that determines whether the sheet attaches to the bottom edge of the screen in a compact-height size class.
     ///   - widthFollowsPreferredContentSizeWhenEdgeAttached: A Boolean value that determines whether the sheet's width matches its view controller's preferred content size.
@@ -105,6 +112,7 @@ extension View {
         isPresented: Binding<Bool>,
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
         prefersGrabberVisible: Bool = false,
+        largestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier? = nil,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
@@ -115,6 +123,7 @@ extension View {
                 isPresented: isPresented,
                 detents: detents,
                 prefersGrabberVisible: prefersGrabberVisible,
+                largestUndimmedDetentIdentifier:  largestUndimmedDetentIdentifier,
                 prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
                 prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
@@ -129,6 +138,7 @@ extension View {
     ///   - item: A binding to an Optional item that determines whether to present the sheet that you create in the modifier’s content closure.
     ///   - detents: An array containing all of the possible sizes for the sheet. This array must contain at least one element. When you set this value, specify detents in order from smallest to largest height.
     ///   - prefersGrabberVisible: A Boolean value that determines whether the sheet shows a grabber at the top.
+    ///   - largestUndimmedDetentIdentifier: The largest detent that doesn't dim the view underneath the sheet.
     ///   - prefersScrollingExpandsWhenScrolledToEdge: A Boolean value that determines whether scrolling expands the sheet to a larger detent.
     ///   - prefersEdgeAttachedInCompactHeight: A Boolean value that determines whether the sheet attaches to the bottom edge of the screen in a compact-height size class.
     ///   - widthFollowsPreferredContentSizeWhenEdgeAttached: A Boolean value that determines whether the sheet's width matches its view controller's preferred content size.
@@ -137,6 +147,7 @@ extension View {
         item: Binding<T?>,
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
         prefersGrabberVisible: Bool = false,
+        largestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier? = nil,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
@@ -147,6 +158,7 @@ extension View {
                 item: item,
                 detents: detents,
                 prefersGrabberVisible: prefersGrabberVisible,
+                largestUndimmedDetentIdentifier:  largestUndimmedDetentIdentifier,
                 prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
                 prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
