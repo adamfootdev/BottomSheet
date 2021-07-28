@@ -13,33 +13,36 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
     @Binding private var isPresented: Bool
 
     private let detents: [UISheetPresentationController.Detent]
+    private let largestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier?
     private let prefersGrabberVisible: Bool
-    private let smallestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier?
     private let prefersScrollingExpandsWhenScrolledToEdge: Bool
     private let prefersEdgeAttachedInCompactHeight: Bool
     private let widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
+    private let uiApplication: UIApplication
 
     private let contentView: UIHostingController<Content>
 
     init(
         isPresented: Binding<Bool>,
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
+        largestUndimmedDetentIdentifier:  UISheetPresentationController.Detent.Identifier? = nil,
         prefersGrabberVisible: Bool = false,
-        smallestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier? = nil,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
+        uiApplication: UIApplication,
         content: Content
     ) {
         _isPresented = isPresented
 
         self.detents = detents
+        self.largestUndimmedDetentIdentifier = largestUndimmedDetentIdentifier
         self.prefersGrabberVisible = prefersGrabberVisible
-        self.smallestUndimmedDetentIdentifier = smallestUndimmedDetentIdentifier
         self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
-
+        self.uiApplication = uiApplication
+        
         self.contentView = UIHostingController(rootView: content)
 
         super.init(nibName: nil, bundle: nil)
@@ -66,8 +69,8 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
 
         if let presentationController = presentationController as? UISheetPresentationController {
             presentationController.detents = detents
+            presentationController.largestUndimmedDetentIdentifier = largestUndimmedDetentIdentifier
             presentationController.prefersGrabberVisible = prefersGrabberVisible
-            presentationController.smallestUndimmedDetentIdentifier = smallestUndimmedDetentIdentifier
             presentationController.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
             presentationController.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
             presentationController.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
