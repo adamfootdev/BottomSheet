@@ -14,7 +14,7 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
 
     private let detents: [UISheetPresentationController.Detent]
     private let prefersGrabberVisible: Bool
-    private let smallestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier?
+    private let largestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier?
     private let prefersScrollingExpandsWhenScrolledToEdge: Bool
     private let prefersEdgeAttachedInCompactHeight: Bool
     private let widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
@@ -26,7 +26,7 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
         isPresented: Binding<Bool>,
         detents: [UISheetPresentationController.Detent] = [.medium(), .large()],
         prefersGrabberVisible: Bool = false,
-        smallestUndimmedDetentIdentifier: UISheetPresentationController.Detent.Identifier? = nil,
+        largestUndimmedDetentIdentifier:  UISheetPresentationController.Detent.Identifier? = nil,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
@@ -37,7 +37,7 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
 
         self.detents = detents
         self.prefersGrabberVisible = prefersGrabberVisible
-        self.smallestUndimmedDetentIdentifier = smallestUndimmedDetentIdentifier
+        self.largestUndimmedDetentIdentifier = largestUndimmedDetentIdentifier
         self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
@@ -70,8 +70,8 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
         if let presentationController = presentationController as? UISheetPresentationController {
             presentationController.detents = detents
             presentationController.prefersGrabberVisible = prefersGrabberVisible
-            presentationController.smallestUndimmedDetentIdentifier = smallestUndimmedDetentIdentifier
             presentationController.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
+            presentationController.largestUndimmedDetentIdentifier = largestUndimmedDetentIdentifier
             presentationController.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
             presentationController.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
         }

@@ -63,7 +63,6 @@ BottomSheet can be customized in the same way a UISheetPresentationController ca
     isPresented: $isPresented,
     detents: [.medium(), .large()],
     prefersGrabberVisible: true,
-    smallestUndimmedDetentIdentifier: nil,
     prefersScrollingExpandsWhenScrolledToEdge: true,
     prefersEdgeAttachedInCompactHeight: false,
     widthFollowsPreferredContentSizeWhenEdgeAttached: false
