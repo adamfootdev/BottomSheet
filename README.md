@@ -69,6 +69,7 @@ BottomSheet can be customized in the same way a UISheetPresentationController ca
     prefersScrollingExpandsWhenScrolledToEdge: true,
     prefersEdgeAttachedInCompactHeight: false,
     widthFollowsPreferredContentSizeWhenEdgeAttached: false,
+    onDismiss: { print("Dismissed") },
     uiApplication: UIApplication.shared
 ) {
     Text("Hello, world!")
