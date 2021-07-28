@@ -41,7 +41,7 @@ import BottomSheet
 You can then apply the .bottomSheet modifier to any SwiftUI view, ensuring you attach a binding to the isPresented property - just like the standard .sheet modifier:
 
 ```swift
-.bottomSheet(isPresented: $isPresented) {
+.bottomSheet(isPresented: $isPresented, uiApplication: UIApplication.shared) {
     Text("Hello, world!")
 }
 ```
@@ -49,10 +49,12 @@ You can then apply the .bottomSheet modifier to any SwiftUI view, ensuring you a
 BottomSheet also supports passing an Optional item to it, displaying the sheet if the item is not nil:
 
 ```swift
-.bottomSheet(item: $item) {
+.bottomSheet(item: $item, uiApplication: UIApplication.shared) {
     Text("Hello, world!")
 }
 ```
+
+Accessing the UIApplication from a framework is no longer supported since Xcode 13. You'll need to pass in an instance of UIApplication to use the bottom sheet.
 
 ### Customizing the Sheet
 
@@ -62,10 +64,12 @@ BottomSheet can be customized in the same way a UISheetPresentationController ca
 .bottomSheet(
     isPresented: $isPresented,
     detents: [.medium(), .large()],
+    largestUndimmedDetentIdentifier: .large,
     prefersGrabberVisible: true,
     prefersScrollingExpandsWhenScrolledToEdge: true,
     prefersEdgeAttachedInCompactHeight: false,
-    widthFollowsPreferredContentSizeWhenEdgeAttached: false
+    widthFollowsPreferredContentSizeWhenEdgeAttached: false,
+    uiApplication: UIApplication.shared
 ) {
     Text("Hello, world!")
 }
