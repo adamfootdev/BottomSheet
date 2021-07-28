@@ -16,7 +16,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
     private let prefersScrollingExpandsWhenScrolledToEdge: Bool
     private let prefersEdgeAttachedInCompactHeight: Bool
     private let widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
-    private var onDismiss: (() -> Void)? = {}
+    private var onDismiss: (() -> Void)?
     private let uiApplication: UIApplication
     private let contentView: ContentView
     
@@ -54,6 +54,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
+        onDismiss: (() -> Void)? = nil,
         uiApplication: UIApplication,
         @ViewBuilder contentView: () -> ContentView
      ) {
@@ -118,6 +119,7 @@ extension View {
     ///   - prefersScrollingExpandsWhenScrolledToEdge: A Boolean value that determines whether scrolling expands the sheet to a larger detent.
     ///   - prefersEdgeAttachedInCompactHeight: A Boolean value that determines whether the sheet attaches to the bottom edge of the screen in a compact-height size class.
     ///   - widthFollowsPreferredContentSizeWhenEdgeAttached: A Boolean value that determines whether the sheet's width matches its view controller's preferred content size.
+    ///   - onDismiss: The closure to execute when dismissing the sheet.
     ///   - uiApplication: A dependency injection for UIApplication.shared since shared is not valid in swift packages as of Xcode 13
     ///   - contentView: A closure that returns the content of the sheet.
     public func bottomSheet<ContentView: View>(
@@ -157,6 +159,7 @@ extension View {
     ///   - prefersScrollingExpandsWhenScrolledToEdge: A Boolean value that determines whether scrolling expands the sheet to a larger detent.
     ///   - prefersEdgeAttachedInCompactHeight: A Boolean value that determines whether the sheet attaches to the bottom edge of the screen in a compact-height size class.
     ///   - widthFollowsPreferredContentSizeWhenEdgeAttached: A Boolean value that determines whether the sheet's width matches its view controller's preferred content size.
+    ///   - onDismiss: The closure to execute when dismissing the sheet.
     ///   - uiApplication: A dependency injection for UIApplication.shared since shared is not valid in swift packages as of Xcode 13
     ///   - contentView: A closure that returns the content of the sheet.
     public func bottomSheet<T: Any, ContentView: View>(
@@ -167,6 +170,7 @@ extension View {
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
+        onDismiss: (() -> Void)? = nil,
         uiApplication: UIApplication,
         @ViewBuilder contentView: () -> ContentView
     ) -> some View {
@@ -178,6 +182,7 @@ extension View {
                 prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
                 prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
+                onDismiss: onDismiss,
                 uiApplication: uiApplication,
                 contentView: contentView
             )
