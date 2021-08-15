@@ -18,7 +18,6 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
     private let prefersScrollingExpandsWhenScrolledToEdge: Bool
     private let prefersEdgeAttachedInCompactHeight: Bool
     private let widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
-    private let uiApplication: UIApplication
 
     private let contentView: UIHostingController<Content>
 
@@ -30,7 +29,6 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
-        uiApplication: UIApplication,
         content: Content
     ) {
         _isPresented = isPresented
@@ -41,7 +39,6 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
         self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
-        self.uiApplication = uiApplication
         
         self.contentView = UIHostingController(rootView: content)
 

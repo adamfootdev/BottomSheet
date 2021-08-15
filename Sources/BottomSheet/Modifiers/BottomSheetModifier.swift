@@ -17,7 +17,6 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
     private let prefersEdgeAttachedInCompactHeight: Bool
     private let widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
     private var onDismiss: (() -> Void)?
-    private let uiApplication: UIApplication
     private let contentView: ContentView
     
     @State private var bottomSheetViewController: BottomSheetViewController<ContentView>?
@@ -31,7 +30,6 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         onDismiss: (() -> Void)? = nil,
-        uiApplication: UIApplication,
         @ViewBuilder contentView: () -> ContentView
     ) {
         _isPresented = isPresented
@@ -41,7 +39,6 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
-        self.uiApplication = uiApplication
         self.contentView = contentView()
         self.onDismiss = onDismiss
     }
@@ -55,7 +52,6 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         onDismiss: (() -> Void)? = nil,
-        uiApplication: UIApplication,
         @ViewBuilder contentView: () -> ContentView
      ) {
         self._isPresented = Binding<Bool>(get: {
@@ -69,7 +65,6 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
-        self.uiApplication = uiApplication
         self.contentView = contentView()
      }
 
@@ -79,7 +74,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
     }
 
     private func updatePresentation(_ isPresented: Bool) {
-        guard let windowScene = uiApplication.connectedScenes.first(where: {
+        guard let windowScene = UIApplication.shared.connectedScenes.first(where: {
             $0.activationState == .foregroundActive
         }) as? UIWindowScene else { return }
 
@@ -94,7 +89,6 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
                 prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
                 prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
-                uiApplication: uiApplication,
                 content: contentView
             )
 
@@ -120,7 +114,6 @@ extension View {
     ///   - prefersEdgeAttachedInCompactHeight: A Boolean value that determines whether the sheet attaches to the bottom edge of the screen in a compact-height size class.
     ///   - widthFollowsPreferredContentSizeWhenEdgeAttached: A Boolean value that determines whether the sheet's width matches its view controller's preferred content size.
     ///   - onDismiss: The closure to execute when dismissing the sheet.
-    ///   - uiApplication: A dependency injection for UIApplication.shared since shared is not valid in swift packages as of Xcode 13
     ///   - contentView: A closure that returns the content of the sheet.
     public func bottomSheet<ContentView: View>(
         isPresented: Binding<Bool>,
@@ -131,7 +124,6 @@ extension View {
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         onDismiss: (() -> Void)? = nil,
-        uiApplication: UIApplication,
         @ViewBuilder contentView: () -> ContentView
     ) -> some View {
         self.modifier(
@@ -143,7 +135,6 @@ extension View {
                 prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
                 onDismiss: onDismiss,
-                uiApplication: uiApplication,
                 contentView: contentView
             )
         )
@@ -160,7 +151,6 @@ extension View {
     ///   - prefersEdgeAttachedInCompactHeight: A Boolean value that determines whether the sheet attaches to the bottom edge of the screen in a compact-height size class.
     ///   - widthFollowsPreferredContentSizeWhenEdgeAttached: A Boolean value that determines whether the sheet's width matches its view controller's preferred content size.
     ///   - onDismiss: The closure to execute when dismissing the sheet.
-    ///   - uiApplication: A dependency injection for UIApplication.shared since shared is not valid in swift packages as of Xcode 13
     ///   - contentView: A closure that returns the content of the sheet.
     public func bottomSheet<T: Any, ContentView: View>(
         item: Binding<T?>,
@@ -171,7 +161,6 @@ extension View {
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         onDismiss: (() -> Void)? = nil,
-        uiApplication: UIApplication,
         @ViewBuilder contentView: () -> ContentView
     ) -> some View {
         self.modifier(
@@ -183,7 +172,6 @@ extension View {
                 prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
                 onDismiss: onDismiss,
-                uiApplication: uiApplication,
                 contentView: contentView
             )
         )
