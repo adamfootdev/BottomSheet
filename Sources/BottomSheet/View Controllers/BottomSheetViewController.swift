@@ -29,6 +29,7 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
+        isModalInPresentation: Bool = false,
         content: Content
     ) {
         _isPresented = isPresented
@@ -43,6 +44,7 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
         self.contentView = UIHostingController(rootView: content)
 
         super.init(nibName: nil, bundle: nil)
+        self.isModalInPresentation = isModalInPresentation
     }
 
     required init?(coder: NSCoder) {
