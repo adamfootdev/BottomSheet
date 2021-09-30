@@ -79,7 +79,9 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
             $0.activationState == .foregroundActive
         }) as? UIWindowScene else { return }
 
-        guard let rootViewController = windowScene.keyWindow?.rootViewController else { return }
+        guard let rootViewController = windowScene.keyWindow?.rootViewController?.presentedViewController
+            ?? windowScene.keyWindow?.rootViewController
+        else { return }
 
         if isPresented {
             bottomSheetViewController = BottomSheetViewController(
