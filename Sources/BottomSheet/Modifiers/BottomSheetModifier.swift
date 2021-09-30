@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(iOS 15, *)
 struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
     @Binding private var isPresented: Bool
     
@@ -101,6 +102,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
     }
 }
 
+@available(iOS 15, *)
 extension View {
 
     /// Presents a bottom sheet when the binding to a Boolean value you provide is true. The bottom sheet
