@@ -79,9 +79,12 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
             $0.activationState == .foregroundActive
         }) as? UIWindowScene else { return }
 
-        guard let rootViewController = windowScene.keyWindow?.rootViewController?.presentedViewController
-            ?? windowScene.keyWindow?.rootViewController
-        else { return }
+        
+        guard let root = windowScene.keyWindow?.rootViewController else { return }
+        var controllerToPresentFrom = root
+        while let presented = controllerToPresentFrom.presentedViewController {
+            controllerToPresentFrom = presented
+        }
 
         if isPresented {
             bottomSheetViewController = BottomSheetViewController(
@@ -95,7 +98,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
                 content: contentView
             )
 
-            rootViewController.present(bottomSheetViewController!, animated: true)
+            controllerToPresentFrom.present(bottomSheetViewController!, animated: true)
 
         } else {
             onDismiss?()
