@@ -17,6 +17,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
     private let prefersScrollingExpandsWhenScrolledToEdge: Bool
     private let prefersEdgeAttachedInCompactHeight: Bool
     private let widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
+    private let isModalInPresentation: Bool
     private var onDismiss: (() -> Void)?
     private let contentView: ContentView
     
@@ -30,6 +31,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
+        isModalInPresentation: Bool = false,
         onDismiss: (() -> Void)? = nil,
         @ViewBuilder contentView: () -> ContentView
     ) {
@@ -40,6 +42,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
+        self.isModalInPresentation = isModalInPresentation
         self.contentView = contentView()
         self.onDismiss = onDismiss
     }
@@ -52,6 +55,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
+        isModalInPresentation: Bool = false,
         onDismiss: (() -> Void)? = nil,
         @ViewBuilder contentView: () -> ContentView
      ) {
@@ -66,6 +70,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
+        self.isModalInPresentation = isModalInPresentation
         self.contentView = contentView()
      }
 
@@ -95,6 +100,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
                 prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
                 prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
+                isModalInPresentation: isModalInPresentation,
                 content: contentView
             )
 
@@ -120,6 +126,7 @@ extension View {
     ///   - prefersScrollingExpandsWhenScrolledToEdge: A Boolean value that determines whether scrolling expands the sheet to a larger detent.
     ///   - prefersEdgeAttachedInCompactHeight: A Boolean value that determines whether the sheet attaches to the bottom edge of the screen in a compact-height size class.
     ///   - widthFollowsPreferredContentSizeWhenEdgeAttached: A Boolean value that determines whether the sheet's width matches its view controller's preferred content size.
+    ///   - isModalInPresentation: A Boolean value indicating whether the view controller enforces a modal behavior.
     ///   - onDismiss: The closure to execute when dismissing the sheet.
     ///   - contentView: A closure that returns the content of the sheet.
     public func bottomSheet<ContentView: View>(
@@ -130,6 +137,7 @@ extension View {
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
+        isModalInPresentation: Bool = false,
         onDismiss: (() -> Void)? = nil,
         @ViewBuilder contentView: () -> ContentView
     ) -> some View {
@@ -141,6 +149,7 @@ extension View {
                 prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
                 prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
+                isModalInPresentation: isModalInPresentation,
                 onDismiss: onDismiss,
                 contentView: contentView
             )
@@ -157,6 +166,7 @@ extension View {
     ///   - prefersScrollingExpandsWhenScrolledToEdge: A Boolean value that determines whether scrolling expands the sheet to a larger detent.
     ///   - prefersEdgeAttachedInCompactHeight: A Boolean value that determines whether the sheet attaches to the bottom edge of the screen in a compact-height size class.
     ///   - widthFollowsPreferredContentSizeWhenEdgeAttached: A Boolean value that determines whether the sheet's width matches its view controller's preferred content size.
+    ///   - isModalInPresentation: A Boolean value indicating whether the view controller enforces a modal behavior.
     ///   - onDismiss: The closure to execute when dismissing the sheet.
     ///   - contentView: A closure that returns the content of the sheet.
     public func bottomSheet<T: Any, ContentView: View>(
@@ -167,6 +177,7 @@ extension View {
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
+        isModalInPresentation: Bool = false,
         onDismiss: (() -> Void)? = nil,
         @ViewBuilder contentView: () -> ContentView
     ) -> some View {
@@ -178,6 +189,7 @@ extension View {
                 prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
                 prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
+                isModalInPresentation: isModalInPresentation,
                 onDismiss: onDismiss,
                 contentView: contentView
             )
