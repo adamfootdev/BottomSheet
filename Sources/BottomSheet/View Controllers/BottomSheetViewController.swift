@@ -9,6 +9,7 @@ import UIKit
 import SwiftUI
 import Combine
 
+@available(iOS 15, *)
 class BottomSheetViewController<Content: View>: UIViewController, UISheetPresentationControllerDelegate {
     @Binding private var isPresented: Bool
 
