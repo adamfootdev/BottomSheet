@@ -18,6 +18,7 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
     private let prefersGrabberVisible: Bool
     private let prefersScrollingExpandsWhenScrolledToEdge: Bool
     private let prefersEdgeAttachedInCompactHeight: Bool
+    @Binding private var selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier?
     private let widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
 
     private let contentView: UIHostingController<Content>
@@ -29,6 +30,7 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
         prefersGrabberVisible: Bool = false,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
+        selectedDetentIdentifier: Binding<UISheetPresentationController.Detent.Identifier?> = Binding.constant(nil),
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         isModalInPresentation: Bool = false,
         content: Content
@@ -40,6 +42,7 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
         self.prefersGrabberVisible = prefersGrabberVisible
         self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
+        self._selectedDetentIdentifier = selectedDetentIdentifier
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
         
         self.contentView = UIHostingController(rootView: content)
@@ -73,7 +76,9 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
             presentationController.prefersGrabberVisible = prefersGrabberVisible
             presentationController.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
             presentationController.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
+            presentationController.selectedDetentIdentifier = selectedDetentIdentifier
             presentationController.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
+            presentationController.delegate = self
         }
     }
 
@@ -81,5 +86,15 @@ class BottomSheetViewController<Content: View>: UIViewController, UISheetPresent
         super.viewDidDisappear(animated)
 
         isPresented = false
+    }
+    
+    func updateSelectedDetentIdentifier(_ selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier?) {
+        self.sheetPresentationController?.animateChanges {
+            self.sheetPresentationController?.selectedDetentIdentifier = selectedDetentIdentifier
+        }
+    }
+    
+    func sheetPresentationControllerDidChangeSelectedDetentIdentifier(_ sheetPresentationController: UISheetPresentationController) {
+        self.selectedDetentIdentifier = sheetPresentationController.selectedDetentIdentifier
     }
 }

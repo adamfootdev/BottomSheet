@@ -16,6 +16,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
     private let prefersGrabberVisible: Bool
     private let prefersScrollingExpandsWhenScrolledToEdge: Bool
     private let prefersEdgeAttachedInCompactHeight: Bool
+    @Binding private var selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier?
     private let widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
     private let isModalInPresentation: Bool
     private var onDismiss: (() -> Void)?
@@ -30,6 +31,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         prefersGrabberVisible: Bool = false,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
+        selectedDetentIdentifier: Binding<UISheetPresentationController.Detent.Identifier?> = Binding.constant(nil),
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         isModalInPresentation: Bool = false,
         onDismiss: (() -> Void)? = nil,
@@ -41,6 +43,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         self.prefersGrabberVisible = prefersGrabberVisible
         self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
+        self._selectedDetentIdentifier = selectedDetentIdentifier
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
         self.isModalInPresentation = isModalInPresentation
         self.contentView = contentView()
@@ -54,6 +57,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         prefersGrabberVisible: Bool = false,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
+        selectedDetentIdentifier: Binding<UISheetPresentationController.Detent.Identifier?> = Binding.constant(nil),
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         isModalInPresentation: Bool = false,
         onDismiss: (() -> Void)? = nil,
@@ -69,6 +73,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         self.prefersGrabberVisible = prefersGrabberVisible
         self.prefersScrollingExpandsWhenScrolledToEdge = prefersScrollingExpandsWhenScrolledToEdge
         self.prefersEdgeAttachedInCompactHeight = prefersEdgeAttachedInCompactHeight
+        self._selectedDetentIdentifier = selectedDetentIdentifier
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
         self.isModalInPresentation = isModalInPresentation
         self.contentView = contentView()
@@ -77,6 +82,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
     func body(content: Content) -> some View {
         content
             .onChange(of: isPresented, perform: updatePresentation)
+            .onChange(of: selectedDetentIdentifier, perform: updateSelectedDetentIdentifier)
     }
 
     private func updatePresentation(_ isPresented: Bool) {
@@ -99,6 +105,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
                 prefersGrabberVisible: prefersGrabberVisible,
                 prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
                 prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
+                selectedDetentIdentifier: $selectedDetentIdentifier,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
                 isModalInPresentation: isModalInPresentation,
                 content: contentView
@@ -110,6 +117,10 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
             onDismiss?()
             bottomSheetViewController?.dismiss(animated: true)
         }
+    }
+    
+    private func updateSelectedDetentIdentifier(_ selectedDetentIdentifier: UISheetPresentationController.Detent.Identifier?) {
+        bottomSheetViewController?.updateSelectedDetentIdentifier(selectedDetentIdentifier)
     }
 }
 
@@ -125,6 +136,7 @@ extension View {
     ///   - prefersGrabberVisible: A Boolean value that determines whether the sheet shows a grabber at the top.
     ///   - prefersScrollingExpandsWhenScrolledToEdge: A Boolean value that determines whether scrolling expands the sheet to a larger detent.
     ///   - prefersEdgeAttachedInCompactHeight: A Boolean value that determines whether the sheet attaches to the bottom edge of the screen in a compact-height size class.
+    ///   - selectedDetentIdentifier: A binding to a identifier of the most recent detent that the user selected or that you set programmatically.
     ///   - widthFollowsPreferredContentSizeWhenEdgeAttached: A Boolean value that determines whether the sheet's width matches its view controller's preferred content size.
     ///   - isModalInPresentation: A Boolean value indicating whether the view controller enforces a modal behavior.
     ///   - onDismiss: The closure to execute when dismissing the sheet.
@@ -136,6 +148,7 @@ extension View {
         prefersGrabberVisible: Bool = false,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
+        selectedDetentIdentifier: Binding<UISheetPresentationController.Detent.Identifier?> = Binding.constant(nil),
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         isModalInPresentation: Bool = false,
         onDismiss: (() -> Void)? = nil,
@@ -148,6 +161,7 @@ extension View {
                 largestUndimmedDetentIdentifier:  largestUndimmedDetentIdentifier, prefersGrabberVisible: prefersGrabberVisible,
                 prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
                 prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
+                selectedDetentIdentifier: selectedDetentIdentifier,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
                 isModalInPresentation: isModalInPresentation,
                 onDismiss: onDismiss,
@@ -165,6 +179,7 @@ extension View {
     ///   - prefersGrabberVisible: A Boolean value that determines whether the sheet shows a grabber at the top.
     ///   - prefersScrollingExpandsWhenScrolledToEdge: A Boolean value that determines whether scrolling expands the sheet to a larger detent.
     ///   - prefersEdgeAttachedInCompactHeight: A Boolean value that determines whether the sheet attaches to the bottom edge of the screen in a compact-height size class.
+    ///   - selectedDetentIdentifier: A binding to a identifier of the most recent detent that the user selected or that you set programmatically.
     ///   - widthFollowsPreferredContentSizeWhenEdgeAttached: A Boolean value that determines whether the sheet's width matches its view controller's preferred content size.
     ///   - isModalInPresentation: A Boolean value indicating whether the view controller enforces a modal behavior.
     ///   - onDismiss: The closure to execute when dismissing the sheet.
@@ -176,6 +191,7 @@ extension View {
         prefersGrabberVisible: Bool = false,
         prefersScrollingExpandsWhenScrolledToEdge: Bool = true,
         prefersEdgeAttachedInCompactHeight: Bool = false,
+        selectedDetentIdentifier: Binding<UISheetPresentationController.Detent.Identifier?> = Binding.constant(nil),
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         isModalInPresentation: Bool = false,
         onDismiss: (() -> Void)? = nil,
@@ -188,6 +204,7 @@ extension View {
                 largestUndimmedDetentIdentifier:  largestUndimmedDetentIdentifier, prefersGrabberVisible: prefersGrabberVisible,
                 prefersScrollingExpandsWhenScrolledToEdge: prefersScrollingExpandsWhenScrolledToEdge,
                 prefersEdgeAttachedInCompactHeight: prefersEdgeAttachedInCompactHeight,
+                selectedDetentIdentifier: selectedDetentIdentifier,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
                 isModalInPresentation: isModalInPresentation,
                 onDismiss: onDismiss,
