@@ -20,7 +20,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
     private let widthFollowsPreferredContentSizeWhenEdgeAttached: Bool
     private let isModalInPresentation: Bool
     private var onDismiss: (() -> Void)?
-    private let contentView: ContentView
+    private let contentView: () -> ContentView
     
     @State private var bottomSheetViewController: BottomSheetViewController<ContentView>?
 
@@ -35,7 +35,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         isModalInPresentation: Bool = false,
         onDismiss: (() -> Void)? = nil,
-        @ViewBuilder contentView: () -> ContentView
+        @ViewBuilder contentView: @escaping () -> ContentView
     ) {
         _isPresented = isPresented
         self.detents = detents
@@ -46,7 +46,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         self._selectedDetentIdentifier = selectedDetentIdentifier
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
         self.isModalInPresentation = isModalInPresentation
-        self.contentView = contentView()
+        self.contentView = contentView
         self.onDismiss = onDismiss
     }
     
@@ -61,7 +61,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         isModalInPresentation: Bool = false,
         onDismiss: (() -> Void)? = nil,
-        @ViewBuilder contentView: () -> ContentView
+        @ViewBuilder contentView: @escaping () -> ContentView
      ) {
         self._isPresented = Binding<Bool>(get: {
             item.wrappedValue != nil
@@ -76,7 +76,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
         self._selectedDetentIdentifier = selectedDetentIdentifier
         self.widthFollowsPreferredContentSizeWhenEdgeAttached = widthFollowsPreferredContentSizeWhenEdgeAttached
         self.isModalInPresentation = isModalInPresentation
-        self.contentView = contentView()
+        self.contentView = contentView
      }
 
     func body(content: Content) -> some View {
@@ -108,7 +108,7 @@ struct BottomSheet<T: Any, ContentView: View>: ViewModifier {
                 selectedDetentIdentifier: $selectedDetentIdentifier,
                 widthFollowsPreferredContentSizeWhenEdgeAttached: widthFollowsPreferredContentSizeWhenEdgeAttached,
                 isModalInPresentation: isModalInPresentation,
-                content: contentView
+                content: contentView()
             )
 
             controllerToPresentFrom.present(bottomSheetViewController!, animated: true)
@@ -152,7 +152,7 @@ extension View {
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         isModalInPresentation: Bool = false,
         onDismiss: (() -> Void)? = nil,
-        @ViewBuilder contentView: () -> ContentView
+        @ViewBuilder contentView: @escaping () -> ContentView
     ) -> some View {
         self.modifier(
             BottomSheet<Any, ContentView>(
@@ -195,7 +195,7 @@ extension View {
         widthFollowsPreferredContentSizeWhenEdgeAttached: Bool = false,
         isModalInPresentation: Bool = false,
         onDismiss: (() -> Void)? = nil,
-        @ViewBuilder contentView: () -> ContentView
+        @ViewBuilder contentView: @escaping () -> ContentView
     ) -> some View {
         self.modifier(
             BottomSheet(
